@@ -1,0 +1,137 @@
+import React, { useState } from 'react'
+
+
+function Form1() {
+
+    const[formdata,setFormdata]=useState({
+        uname:'',
+        email:'',
+        password:'',
+        cpassword:''
+    })
+    const [err,setErr]=useState({})
+    const upattern=new RegExp(/^([A-z]{1,1})+([a-z]{1,9})$/)
+    const epattern=new RegExp(/^([a-z]{1,1})+([a-z0-9]{0,9})+([._]{0,1})([a-z0-9]{1,19})+([@]{1,1})([a-z]{2,19})+([.]{1,1})(com|co.in|in|usa|fr)$/)
+    const ppattern=new RegExp(  /(^[a-zA-Z0-9@#$%&*]{2,9})+([@#$%&*]{1,1})+([a-zA-Z0-9@#$%&*]{3,10})$/)
+
+    
+
+  const inputHandler=(e)=>
+  {
+    setFormdata({...formdata,[e.target.name]:e.target.value})
+  }
+
+  const submitHandler=(e)=>
+  {
+    e.preventDefault()
+    let errvalidation={};
+
+    if(!formdata.uname)
+    {
+        errvalidation.uname='User name is required...!'
+    }
+    else if(!upattern.test(formdata.uname))
+    {
+        errvalidation.uname='Please fill valid user name'
+    }
+   
+   
+
+
+    //email validation
+
+    if(!formdata.email)
+    {
+        errvalidation.email='Email address is Required...!'
+    }
+    else if(!epattern.email)
+    {
+        errvalidation.email='Please enter Valid Email Address '
+    }
+   else
+   {
+
+   }
+    //password validation
+
+    if(!formdata.password)
+    {
+        errvalidation.password='Password is required...!'
+    }
+    else if(!ppattern.password)
+    {
+        errvalidation.password='Please enter strong password'
+    }
+    else
+    {}
+   
+
+    //cpassword validation
+
+    if(!formdata.cpassword)
+    {
+        errvalidation.cpassword='confirm password is required...!'
+    }
+    else if(formdata.cpassword!==formdata.password)
+    {
+        errvalidation.cpassword='password do not match..?'
+    }
+else
+{
+
+}
+ 
+setErr(errvalidation) 
+
+  }
+ 
+  return (
+   <>
+    <div className='container' style={{padding:'20px',margin:'auto',backgroundColor:'pink',boxShadow:'0 2px 6px black',width:'800px',marginTop:'20px'}}>
+        <h3 style={{color:'blue',fontFamily:'cursive',textDecorationLine:'underline'}}>Validation form</h3><hr/>
+    <form className='w-50 m-auto' onSubmit={submitHandler}>
+
+<div class="mb-3">
+<label class="form-label" >User Name</label>
+<input type="text" class="form-control" onChange={inputHandler} name="uname" />
+<p>
+{err.uname && <span style={{ color: "red" }}>{err.uname}</span>}
+</p></div>
+
+
+<div class="mb-3">
+<label class="form-label">Email address</label>
+<input type="email" class="form-control" name="email" onChange={inputHandler}/>
+<p>
+    {err.email&&<span style={{color:'red'}}>{err.email}</span>}
+</p>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Password</label>
+<input type="password" class="form-control"  name="password"  onChange={inputHandler}/>
+<p>
+    {err.password && <span style={{color:'red'}}>{err.password}</span>}
+</p>
+</div>
+
+<div class="mb-3">
+<label class="form-label"> Confirm Password</label>
+<input type="password" class="form-control"  name="cpassword"  onChange={inputHandler}/>
+<p>
+    {err.cpassword &&<span style={{color:'red'}}>{err.cpassword}</span>}
+</p>
+</div>
+
+<div className='container text-center'>
+<button type="submit" class="btn btn-primary" >Submit</button>
+</div>
+</form>
+</div>
+    
+    
+    </>
+  )
+}
+
+export default Form1
